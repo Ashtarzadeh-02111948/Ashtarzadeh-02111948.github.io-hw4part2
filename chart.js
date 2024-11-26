@@ -26,7 +26,6 @@ $(document).ready(function () {
         return true; // Valid inputs
     };
 
-    // Add sliders for two-way binding
     function initializeSliders() {
         const sliderConfig = {
             min: -50,
@@ -44,20 +43,17 @@ $(document).ready(function () {
         $("#slider-multiplierMin").slider(sliderConfig).data("input", "#multiplierMin");
         $("#slider-multiplierMax").slider(sliderConfig).data("input", "#multiplierMax");
 
-        // Bind input fields to sliders
         $("input[type='number']").on("input change", function () {
             const slider = $(this).siblings(".ui-slider");
             slider.slider("value", $(this).val());
 
-            // Only update the table in the active tab if it's not the input tab
             const activeTabId = $("#tabs .ui-tabs-active").attr("aria-controls");
             if (activeTabId && activeTabId !== "tab-input" && validateInputs()) {
-                updateTable(activeTabId); // Dynamically update table
+                updateTable(activeTabId);
             }
         });
     }
 
-    // Generate table for the current values
     function generateTable() {
         const multiplicandMin = parseInt($("#multiplicandMin").val());
         const multiplicandMax = parseInt($("#multiplicandMax").val());
@@ -66,7 +62,6 @@ $(document).ready(function () {
 
         const table = $("<table>").addClass("table table-bordered").attr("id", "multiplicationTable");
 
-        // Header row
         const headerRow = $("<tr>");
         headerRow.append($("<th>").addClass("multiplier-header").text(""));
         for (let j = multiplierMin; j <= multiplierMax; j++) {
@@ -74,7 +69,6 @@ $(document).ready(function () {
         }
         table.append(headerRow);
 
-        // Rows for multiplicands
         for (let i = multiplicandMin; i <= multiplicandMax; i++) {
             const row = $("<tr>");
             row.append($("<th>").addClass("multiplicand-header").text(i));
@@ -87,7 +81,6 @@ $(document).ready(function () {
         return table;
     }
 
-    // Create a new tab with the current values
     function createNewTab() {
         if (!validateInputs()) {
             alert("Please ensure all inputs are valid: Min values must be less than Max values.");
@@ -101,9 +94,9 @@ $(document).ready(function () {
         const tabIndex = tabs.find("ul li").length;
         const tabId = `tab-${tabIndex}`;
 
-        // Add new tab
         tabs.find("ul").append(`
             <li>
+                <input type="checkbox" class="tab-checkbox" id="check-${tabId}">
                 <a href="#${tabId}">${params}</a>
                 <span class="ui-icon ui-icon-close" role="button"></span>
             </li>
@@ -114,7 +107,6 @@ $(document).ready(function () {
         tabs.tabs("refresh");
         tabs.tabs("option", "active", tabIndex);
 
-        // Add close button logic
         tabs.find("ul li:last-child .ui-icon-close").on("click", function () {
             const panelId = $(this).closest("li").remove().attr("aria-controls");
             $(`#${panelId}`).remove();
@@ -122,13 +114,11 @@ $(document).ready(function () {
         });
     }
 
-    // Update the table in the active tab
     function updateTable(activeTabId) {
         const table = generateTable();
         $(`#${activeTabId}`).empty().append(table);
     }
 
-    // Get parameters for tab title
     function getParams() {
         const multiplicandMin = $("#multiplicandMin").val();
         const multiplicandMax = $("#multiplicandMax").val();
@@ -138,17 +128,20 @@ $(document).ready(function () {
         return `(${multiplicandMin}, ${multiplicandMax}) x (${multiplierMin}, ${multiplierMax})`;
     }
 
-    // Attach click event to Generate Table button
+    // Generate new tab on button click
     $("#generateButton").on("click", function (e) {
-        e.preventDefault(); // Prevent default button behavior
-        createNewTab(); // Always create a new tab
+        e.preventDefault();
+        createNewTab();
     });
 
-    // Delete all tabs except the input tab
-    $("#deleteTabs").on("click", function () {
+    // Delete selected tabs
+    $("#deleteSelected").on("click", function () {
         $("#tabs ul li").not(":first").each(function () {
-            const panelId = $(this).remove().attr("aria-controls");
-            $(`#${panelId}`).remove();
+            const checkbox = $(this).find(".tab-checkbox");
+            if (checkbox.is(":checked")) {
+                const panelId = $(this).remove().attr("aria-controls");
+                $(`#${panelId}`).remove();
+            }
         });
         $("#tabs").tabs("refresh");
     });

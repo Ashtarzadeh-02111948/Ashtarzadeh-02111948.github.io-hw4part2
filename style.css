@@ -77,3 +77,23 @@
     top: 0;
     z-index: 10;
 }
+
+.tab-checkbox {
+    position: absolute;
+    top: 50%; /* Vertically center */
+    left: 5px; /* Place near the left edge */
+    transform: translateY(-50%); /* Align properly */
+}
+
+#tabs ul li {
+    position: relative; /* Allow absolute positioning inside <li> */
+    padding-left: 25px; /* Create space for the checkbox */
+}
+
+
+#input-label{
+    display: block;
+    text-align: center;
+    margin-left: -20px;
+}
+

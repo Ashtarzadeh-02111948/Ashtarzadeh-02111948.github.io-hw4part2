@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Multiplication Table Generator with jQuery UI</title>
+    <title>Multiplication Table Generator with JQuery UI</title>
     <meta charset="utf-8">
     <link href="style.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,14 +17,14 @@
         <!-- Page Title -->
         <div class="row">
             <div class="col-12 text-center page-title">
-                Multiplication Table Generator with Tabs and Sliders
+                Multiplication Table Generator (with Tabs and Sliders)
             </div>
         </div>
 
         <!-- Tabs Section -->
         <div id="tabs">
             <ul>
-                <li><a href="#tab-input">Input</a></li>
+                <li><a id = "input-label" href="#tab-input">Input</a></li>
             </ul>
 
             <div id="tab-input">
@@ -76,14 +76,16 @@
                     <!-- Buttons Section -->
                     <div class="col-md-12 text-center mt-3">
                         <button class="btn btn-primary" id="generateButton" type="submit">Generate Table</button>
-                        <button class="btn btn-danger" id="deleteTabs" type="button">Delete All Tables</button>
+                        <!-- Replace Delete Selected Tabs button -->
+                        <button class="btn btn-danger" id="deleteSelected" type="button">Delete Selected Tabs</button>
+
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Table Container for Generated Tables -->
+    <!-- Table Container for Generated Tables and Tabs -->
     <div id="tableContainer" style="display: none;"></div>
 
     <script src="chart.js"></script>
