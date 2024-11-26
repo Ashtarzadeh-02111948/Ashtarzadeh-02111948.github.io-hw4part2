@@ -1,0 +1,79 @@
+/* Main title styling */
+.page-title {
+    background-color: #231b92;
+    color: white;
+    padding: 10px;
+    font-size: 2em;
+    text-align: center;
+}
+
+/* Tabs styling */
+#tabs {
+    margin-top: 20px;
+}
+
+.ui-slider {
+    margin-top: 10px;
+}
+
+.ui-icon-close {
+    cursor: pointer;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    position: relative;
+}
+
+.ui-tabs .ui-tabs-nav li .ui-icon-close {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Table styling */
+#tableContainer table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#tableContainer table th,
+#tableContainer table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tableContainer table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Alternating row colors */
+#tableContainer table tr:nth-child(even) {
+    background-color: #8499f6;
+}
+
+#tableContainer table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Sticky headers for multiplicands and multipliers */
+.multiplicand-header {
+    color: white;
+    font-weight: bold;
+    background-color: #231b92;
+    position: sticky;
+    left: 0;
+    z-index: 9;
+}
+
+.multiplier-header {
+    color: white;
+    font-weight: bold;
+    background-color: #231b92;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Multiplication Table Generator with jQuery UI</title>
+    <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- jQuery and jQuery UI -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Title -->
+        <div class="row">
+            <div class="col-12 text-center page-title">
+                Multiplication Table Generator with Tabs and Sliders
+            </div>
+        </div>
+
+        <!-- Tabs Section -->
+        <div id="tabs">
+            <ul>
+                <li><a href="#tab-input">Input</a></li>
+            </ul>
+
+            <div id="tab-input">
+                <h2 class="text-center">Enter Table Parameters</h2>
+                <p class="text-center">Valid values range from -50 to 50</p>
+
+                <!-- Form Section -->
+                <form id="tableInput">
+                    <div class="row">
+                        <div class="col-md-5">
+                            Enter Minimum Value for Multiplicand (Vertical):
+                        </div>
+                        <div class="col-md-auto">
+                            <input type="number" id="multiplicandMin" name="multiplicandMin" required>
+                            <div id="slider-multiplicandMin"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            Enter Maximum Value for Multiplicand (Vertical):
+                        </div>
+                        <div class="col-md-auto">
+                            <input type="number" id="multiplicandMax" name="multiplicandMax" required>
+                            <div id="slider-multiplicandMax"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            Enter Minimum Value for Multiplier (Horizontal):
+                        </div>
+                        <div class="col-md-auto">
+                            <input type="number" id="multiplierMin" name="multiplierMin" required>
+                            <div id="slider-multiplierMin"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            Enter Maximum Value for Multiplier (Horizontal):
+                        </div>
+                        <div class="col-md-auto">
+                            <input type="number" id="multiplierMax" name="multiplierMax" required>
+                            <div id="slider-multiplierMax"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Buttons Section -->
+                    <div class="col-md-12 text-center mt-3">
+                        <button class="btn btn-primary" id="generateButton" type="submit">Generate Table</button>
+                        <button class="btn btn-danger" id="deleteTabs" type="button">Delete All Tables</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Container for Generated Tables -->
+    <div id="tableContainer" style="display: none;"></div>
+
+    <script src="chart.js"></script>
+</body>
+</html>
