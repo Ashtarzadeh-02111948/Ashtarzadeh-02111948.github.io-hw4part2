@@ -1,3 +1,4 @@
+
 /* 
 Created by: Nika Ashtarzadeh
 Email: Nika_Ashtarzadeh@student.uml.edu
@@ -11,25 +12,43 @@ $(document).ready(function () {
     // Initialize tabs
     $("#tabs").tabs();
 
-    // Input validation rules
-    const validateInputs = () => {
-        const multiplicandMin = parseInt($("#multiplicandMin").val());
-        const multiplicandMax = parseInt($("#multiplicandMax").val());
-        const multiplierMin = parseInt($("#multiplierMin").val());
-        const multiplierMax = parseInt($("#multiplierMax").val());
+    // Ensure values stay within bounds, making the code much more robust. 
+    const enforceBounds = (value) => {
+        if (value < -50) return -50;
+        if (value > 50) return 50;
+        return value;
+    };
 
+    const validateInputs = () => {
+        const multiplicandMin = enforceBounds(parseInt($("#multiplicandMin").val()) || null);
+        const multiplicandMax = enforceBounds(parseInt($("#multiplicandMax").val()) || null);
+        const multiplierMin = enforceBounds(parseInt($("#multiplierMin").val()) || null);
+        const multiplierMax = enforceBounds(parseInt($("#multiplierMax").val()) || null);
+
+        // Ensure all fields are filled
         if (
-            isNaN(multiplicandMin) ||
-            isNaN(multiplicandMax) ||
-            isNaN(multiplierMin) ||
-            isNaN(multiplierMax) ||
-            multiplicandMin > multiplicandMax ||
-            multiplierMin > multiplierMax
+            multiplicandMin === null ||
+            multiplicandMax === null ||
+            multiplierMin === null ||
+            multiplierMax === null
         ) {
-            return false; // Invalid inputs
+            alert("Please fill in all fields.");
+            return false;
         }
 
-        return true; // Valid inputs
+        // Ensure min values are less than or equal to max values
+        if (multiplicandMin > multiplicandMax || multiplierMin > multiplierMax) {
+            alert("Minimum values cannot exceed Maximum values.");
+            return false;
+        }
+
+        // Snap values back into range
+        $("#multiplicandMin").val(multiplicandMin);
+        $("#multiplicandMax").val(multiplicandMax);
+        $("#multiplierMin").val(multiplierMin);
+        $("#multiplierMax").val(multiplierMax);
+
+        return true;
     };
 
     function initializeSliders() {
@@ -39,7 +58,10 @@ $(document).ready(function () {
             step: 1,
             slide: function (event, ui) {
                 const input = $(this).data("input");
-                $(input).val(ui.value).trigger("change"); // Update input value
+                $(input).val(ui.value).trigger("change");
+            },
+            stop: function (event, ui) {
+                enforceInputValue($(this).data("input"));
             }
         };
 
@@ -49,22 +71,32 @@ $(document).ready(function () {
         $("#slider-multiplierMin").slider(sliderConfig).data("input", "#multiplierMin");
         $("#slider-multiplierMax").slider(sliderConfig).data("input", "#multiplierMax");
 
-        $("input[type='number']").on("input change", function () {
-            const slider = $(this).siblings(".ui-slider");
-            slider.slider("value", $(this).val());
+        $("input[type='number']")
+            .on("change", function () {
+                const slider = $(this).siblings(".ui-slider");
+                slider.slider("value", $(this).val());
 
-            const activeTabId = $("#tabs .ui-tabs-active").attr("aria-controls");
-            if (activeTabId && activeTabId !== "tab-input" && validateInputs()) {
-                updateTable(activeTabId);
-            }
-        });
+                const activeTabId = $("#tabs .ui-tabs-active").attr("aria-controls");
+                if (activeTabId && activeTabId !== "tab-input" && validateInputs()) {
+                    updateTable(activeTabId);
+                }
+            })
+            .on("blur", function () {
+                // Enforce bounds only when leaving the input
+                enforceInputValue(this);
+            });
     }
 
+    const enforceInputValue = (input) => {
+        const value = enforceBounds(parseInt($(input).val()) || 0);
+        $(input).val(value); // Snap value back into range
+    };
+
     function generateTable() {
-        const multiplicandMin = parseInt($("#multiplicandMin").val());
-        const multiplicandMax = parseInt($("#multiplicandMax").val());
-        const multiplierMin = parseInt($("#multiplierMin").val());
-        const multiplierMax = parseInt($("#multiplierMax").val());
+        const multiplicandMin = enforceBounds(parseInt($("#multiplicandMin").val()));
+        const multiplicandMax = enforceBounds(parseInt($("#multiplicandMax").val()));
+        const multiplierMin = enforceBounds(parseInt($("#multiplierMin").val()));
+        const multiplierMax = enforceBounds(parseInt($("#multiplierMax").val()));
 
         const table = $("<table>").addClass("table table-bordered").attr("id", "multiplicationTable");
 
@@ -89,8 +121,7 @@ $(document).ready(function () {
 
     function createNewTab() {
         if (!validateInputs()) {
-            alert("Please ensure all inputs are valid: Min values must be less than Max values.");
-            return;
+            return; // Do not create a tab if inputs are invalid, return. 
         }
 
         const params = getParams();
@@ -100,6 +131,7 @@ $(document).ready(function () {
         const tabIndex = tabs.find("ul li").length;
         const tabId = `tab-${tabIndex}`;
 
+        // adding tabs with checkboxes
         tabs.find("ul").append(`
             <li>
                 <input type="checkbox" class="tab-checkbox" id="check-${tabId}">
@@ -152,4 +184,3 @@ $(document).ready(function () {
         $("#tabs").tabs("refresh");
     });
 });
-
