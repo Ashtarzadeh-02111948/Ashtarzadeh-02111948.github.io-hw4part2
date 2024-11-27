@@ -1,3 +1,9 @@
+/* 
+Created by: Nika Ashtarzadeh
+Email: Nika_Ashtarzadeh@student.uml.edu
+Date: 11/26/24
+*/
+
 $(document).ready(function () {
     // Initialize sliders
     initializeSliders();
